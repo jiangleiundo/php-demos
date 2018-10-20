@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jquery-ajax</title>
+    <link rel="icon" type="image/x-icon" href="../img/logo64.ico">
+</head>
+<body>
+
+<script src="../js/jquery-1.12.4.js"></script>
+<script>
+
+    $.ajax({
+        url: 'json.php',
+        type: 'get',
+        data: {},
+        dataType: 'json',
+        success: function (data){
+            console.log(data.name);
+        }
+    })
+</script>
+</body>
+</html>

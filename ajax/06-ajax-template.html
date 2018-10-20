@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>06-ajax 动态表格渲染</title>
+</head>
+<style>
+    table {
+        border-collapse: collapse;
+    }
+    table td {
+        border: 1px solid #ddd;
+        padding: 4px;
+    }
+</style>
+<body>
+<h2>使用template 引擎</h2>
+<table id="">
+	<thead>
+		<tr>
+			<td>作者</td>
+			<td>email</td>
+			<td>内容</td>
+			<td>时间</td>
+		</tr>
+	</thead>
+	<tbody id="art_template"></tbody>
+</table>
+
+<script id="tmp" type="text/x-art-template">
+    {{each comments}}
+    <tr>
+        <td>{{$value.author}}</td>
+        <td>{{$value.email}}</td>
+        <td width="60%">{{$value.content}}</td>
+        <td>{{$value.created}}</td>
+    </tr>
+    {{/each}}
+</script>
+<script src="template-web.js"></script>
+<script>
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', 'test.php');
+    xhr.send();
+
+    xhr.onreadystatechange = function (){
+        if(this.readyState !== 4) return;
+        let res = JSON.parse(this.responseText);
+
+        let context = {comments: res.data};
+        let html = template('tmp', context);
+
+        document.getElementById('art_template').innerHTML = html;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>05-ajax</title>
+</head>
+<body>
+<div id="txt"></div>
+<script>
+    function ajax(method, url, params, callback) {
+        let xhr = new XMLHttpRequest();
+
+        if (typeof params === 'object') {
+            let arr = [];
+            for (let k in params){
+                let val = params[k];
+                arr.push(k+'='+val);
+            }
+
+            params = arr.join('&');
+        }
+
+        if (method === 'GET') {
+            url += '?' + params;
+        }
+
+        xhr.open(method, url);
+
+        let data = null;
+        if (method === 'POST') {
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            data = params;
+        }
+
+        xhr.send(data);
+
+        xhr.onreadystatechange = function () {
+            if (this.readyState !== 4) return;
+            callback(this.responseText);
+        }
+    }
+
+    // ajax('GET', 'time.php', { id: 2 }, function (data){
+    //     document.getElementById('txt').innerHTML = data;
+    // })
+    // ajax('POST', 'add.php', { key1: 'value1', key2: 'value2' }, function (data){
+    //     document.getElementById('txt').innerHTML = data;
+    // })
+    ajax('POST', 'add.php', 'key1=value1', function (data){
+        console.log(data);
+        document.getElementById('txt').innerHTML = data;
+    })
+
+</script>
+</body>
+</html>

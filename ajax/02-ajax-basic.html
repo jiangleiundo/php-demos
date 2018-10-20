@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>遵循http协议</title>
+</head>
+<body>
+
+<script>
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', 'add.php');
+
+    //该方法必须在open和send之间调用
+    //一旦请求体是urlencoded格式的内容，一定要设置请求头'Content-type', 'application/x-www-form-urlencoded'
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send('key01=value01&key02=value02');
+
+
+</script>
+</body>
+</html>

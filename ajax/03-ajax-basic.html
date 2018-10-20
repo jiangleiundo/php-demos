@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>遵循http协议</title>
+    <style>
+        a {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<ul id="demo"></ul>
+
+<script>
+    let ul = document.getElementById('demo');
+
+    // let xhr = new XMLHttpRequest();
+    // xhr.open('GET', 'user.php');
+    // xhr.send(null);
+    //
+    // xhr.onreadystatechange = function () {
+    //     if (this.readyState !== 4) return;
+    //
+    //     let data = JSON.parse(this.responseText);
+    //     for (let i = 0; i < data.length; i++) {
+    //         let li = document.createElement("li");
+    //         li.id = data[i].id;
+    //         li.innerHTML = "<a id=" + data[i].id + ">" + data[i].name + "</a>";
+    //         ul.appendChild(li);
+    //
+    //         li.addEventListener("click", function (){
+    //             let xhr2 = new XMLHttpRequest();
+    //             xhr2.open('GET', 'user.php?id='+this.id);
+    //             xhr2.send(null);
+    //
+    //             xhr2.onreadystatechange = function (){
+    //                 let self = this;
+    //                 if (self.readyState !== 4) return;
+    //
+    //                 let item = JSON.parse(self.responseText);
+    //                 alert(item.age);
+    //             }
+    //         })
+    //     }
+    // };
+
+    JsAjax('GET', 'user.php', function (data){
+        for (let i = 0; i < data.length; i++) {
+            let li = document.createElement("li");
+            li.id = data[i].id;
+            li.innerHTML = "<a id=" + data[i].id + ">" + data[i].name + "</a>";
+            ul.appendChild(li);
+
+            li.addEventListener("click", function (){
+
+                JsAjax('GET', 'user.php?id='+this.id, function (data){
+                    alert(data.age);
+                });
+            })
+        }
+    });
+
+    function JsAjax(type, path, callback){
+        let xhr = new XMLHttpRequest();
+        xhr.open(type, path);
+        xhr.send();
+        xhr.onreadystatechange = function (){
+            if(this.readyState !== 4) return;
+            let data = JSON.parse(this.responseText);
+            callback(data);
+        }
+    }
+
+
+</script>
+</body>
+</html>

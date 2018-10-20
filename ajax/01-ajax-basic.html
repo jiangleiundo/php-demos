@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax</title>
+</head>
+<body>
+
+<script>
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', './time.php');
+
+    xhr.send();
+
+    // xhr.addEventListener('readystatechange', function(){
+    //
+    //     if (this.readyState !== 4) return;
+    //     console.log(this.responseText);
+    // })
+    xhr.onload = function(){
+        console.log(this.readyState);
+        console.log(this.responseText);
+    };
+
+
+
+
+</script>
+</body>
+</html>

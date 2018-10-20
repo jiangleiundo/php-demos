@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax-login</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        table td {
+            padding: 4px 8px;
+            border: 1px solid #ddd;
+        }
+
+        #loading {
+            /*display: none;*/
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-color: #000;
+            opacity: .5;
+            z-index: 9999;
+        }
+        .box{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 160px;
+            height: 80px;
+            margin-top: -40px;
+            margin-left: -80px;
+            line-height: 80px;
+            text-align: center;
+            background-color: #ccc;
+            color: #000;
+            letter-spacing: 2px;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+        .box:after,.box:before {
+            content: "";
+            display: block;
+            position: absolute;
+            width:170px;
+            height:90px;
+            top: -5px;
+            left: -5px;
+            border:2px solid #ddd;
+            z-index:10;
+            box-sizing: border-box;
+            -webkit-animation: clipBorder 4s infinite linear;
+        }
+        .box:before{
+            -webkit-animation-delay: -2s;
+        }
+        @keyframes  clipBorder{
+            0%,100%{
+                clip:rect(0px,170px,2px,0px);
+                border-color: #bd4147;
+            }
+            25%{
+                clip:rect(0px,170px,90px,168px);
+                border-color: lime;
+            }
+            50%{
+                clip:rect(88px,170px,90px,0px);
+            }
+            75%{
+                clip:rect(0px,2px,90px,0px);
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="loading">
+    <div class="box">加载中···</div>
+</div>
+<table border="1">
+    <tr>
+        <td><label for="username">用户名</label></td>
+        <td><input type="text" id="username"></td>
+    </tr>
+    <tr>
+        <td><label for="password">密码</label></td>
+        <td><input type="password" id="password"></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <button id="btn">登录</button>
+        </td>
+    </tr>
+</table>
+
+<script>
+    function my$(id) {
+        return document.getElementById(id);
+    }
+
+    function loading(show) {
+        my$("loading").style.display = show ? 'block' : 'none';
+    }
+
+    my$("btn").addEventListener("click", function () {
+        loading(1);
+        let username = my$('username').value;
+        let password = my$('password').value;
+
+        //xhr请求
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', 'login.php');
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.send('username='+ username +'&password='+ password);
+
+        xhr.onreadystatechange = function (){
+            if(this.readyState !== 4) return;
+            console.log(this.responseText);
+            loading(0);
+        }
+    })
+
+</script>
+</body>
+</html>
